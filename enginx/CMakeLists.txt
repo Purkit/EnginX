@@ -1,6 +1,6 @@
 project(EnginX_Shared_Library VERSION 1.0.1)
 
-file(GLOB_RECURSE ENGINX_MAIN_LIBRARY_SOURCES ${PROJECT_SOURCE_DIR}/src/*/*.cpp)
+file(GLOB_RECURSE ENGINX_MAIN_LIBRARY_SOURCES ${PROJECT_SOURCE_DIR}/*/*.cpp)
 
 
 add_library(
