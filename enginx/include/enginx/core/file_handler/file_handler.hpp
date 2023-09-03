@@ -16,7 +16,7 @@
 
 namespace enginx
 {
-    typedef enum FILE_ACCESS_FLAGS
+    enum class FILE_ACCESS_FLAGS : long
     {
         READ_ONLY       = 00000001,
         WRITE_ONLY      = 00000010,
@@ -26,7 +26,7 @@ namespace enginx
         BINARY_MODE     = 00100000
     };
 
-    typedef enum FILE_HANDELING_FLAGS
+    enum class FILE_HANDELING_FLAGS : long
     {
         NEW_EMPTY_FILE = 01000000,
         NO_OVERWRITE = 10000000,
@@ -34,7 +34,7 @@ namespace enginx
         OVERWRITE_IF_ALREADY_EXISTS = 01000000
     };
 
-    typedef struct File
+    struct File
     {
         const char* file_path;
         FILE* handle;

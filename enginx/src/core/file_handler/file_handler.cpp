@@ -1,6 +1,6 @@
 #include <enginx/core/file_handler/file_handler.hpp>
-#include <enginx/Utility/logger/logger.hpp>
-#include <enginx/Utility/assert/asserts.hpp>
+#include <enginx/utility/assert/asserts.hpp>
+#include <enginx/utility/logger/logger.hpp>
 
 #include <unistd.h>
 #include <sys/stat.h>
@@ -18,7 +18,7 @@ namespace enginx
     u64 FileUtils::GetFileSize(const char* file_path)
     {   
         if ( DoesFileExists(file_path) != true)
-            return; // ! SKIP IF FILE DO NOT EXISTS
+            return -1; // ! RETURN -1 IF FILE DOES NOT EXISTS
         
         struct stat file_info;
         stat(file_path, &file_info);
@@ -29,13 +29,13 @@ namespace enginx
     bool FileUtils::Create(File file_struct_object, long flags_mask)
     {
         const char* mode_str;
-        if (flags_mask == WRITE_ONLY)
+        if (flags_mask == (long)FILE_ACCESS_FLAGS::WRITE_ONLY)
             mode_str = "w";
-        if (flags_mask == WRITE_ONLY | NO_OVERWRITE_IF_ALREADY_EXISTS)
+        if (flags_mask == (long)FILE_ACCESS_FLAGS::WRITE_ONLY | (long)FILE_HANDELING_FLAGS::NO_OVERWRITE_IF_ALREADY_EXISTS)
             mode_str = "wx";
-        if ( (flags_mask == READ_AND_WRITE) || (flags_mask == READ_AND_WRITE | NEW_EMPTY_FILE) || (flags_mask == READ_AND_WRITE | OVERWRITE_IF_ALREADY_EXISTS))
+        if ( (flags_mask == (long)FILE_ACCESS_FLAGS::READ_AND_WRITE) || (flags_mask == (long)FILE_ACCESS_FLAGS::READ_AND_WRITE | (long)FILE_HANDELING_FLAGS::NEW_EMPTY_FILE) || (flags_mask == (long)FILE_ACCESS_FLAGS::READ_AND_WRITE | (long)FILE_HANDELING_FLAGS::OVERWRITE_IF_ALREADY_EXISTS))
             mode_str = "w+";
-        if ( (flags_mask == READ_AND_WRITE | NO_OVERWRITE) )
+        if ( (flags_mask == (long)FILE_ACCESS_FLAGS::READ_AND_WRITE | (long)FILE_HANDELING_FLAGS::NO_OVERWRITE) )
             mode_str = "w+x";
         
 
@@ -56,15 +56,16 @@ namespace enginx
         int isBinaryModeEnabled = (flags_mask & (1 << 5)) != 0;
         int isNoOverwriteModeEnabled = (flags_mask & (1 << 7)) != 0;
 
-        if ( (flags_mask == READ_ONLY) )
+        using enum FILE_ACCESS_FLAGS;
+        if ( (flags_mask == (long)READ_ONLY) )
             mode_str = isBinaryModeEnabled ? "rb" : "r";
-        if (flags_mask == WRITE_ONLY)
+        if (flags_mask == (long)WRITE_ONLY)
             mode_str = (isNoOverwriteModeEnabled ? (isBinaryModeEnabled ? "wbx" : "wx") : (isBinaryModeEnabled ? "wb" : "w"));
-        if ( flags_mask == READ_AND_WRITE )
+        if ( flags_mask == (long)READ_AND_WRITE )
             mode_str = "r+";
-        if ( flags_mask == APPEND_ONLY )
+        if ( flags_mask == (long)APPEND_ONLY )
             mode_str = "a";
-        if ( flags_mask == READ_AND_APPEND )
+        if ( flags_mask == (long)READ_AND_APPEND )
             mode_str = "a+";
         
         file_struct_object.handle = fopen(file_struct_object.file_path, mode_str);

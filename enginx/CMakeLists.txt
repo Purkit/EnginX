@@ -8,6 +8,6 @@ add_library(
     ${ENGINX_MAIN_LIBRARY_SOURCES}    
 )
 
-//target_link_libraries(enginx PRIVATE X11 GL)
+target_link_libraries(enginx PRIVATE X11 GL)
 
 target_include_directories(enginx PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
