@@ -1,25 +1,22 @@
-#ifndef X11_WINDOW_HPP
-#define X11_WINDOW_HPP
+#ifndef WIN32_WINDOW_HPP
+#define WIN32_WINDOW_HPP
 
 #include <enginx/platform_detection.h>
 
-#ifdef EX_PLATFORM_LINUX
+#ifdef EX_PLATFORM_WINDOWS
 
 #include <enginx/core/window/window.hpp>
 
-#include <X11/Xlib.h>
-#include <X11/Xutil.h>
-#include <X11/keysymdef.h>
-
+#include <Windows.h>
+#include <memory>
 
 namespace enginx
 {
-
-    class X11Window : public ExWindow
+    class Win32Window : public ExWindow
     {
         public:
-            X11Window(u32 width, u32 height, const std::string& title);
-            virtual ~X11Window();
+            Win32Window(u32 width, u32 height, const std::string& title);
+            virtual ~Win32Window();
         
         public:
             void OnUpdate() override;
@@ -46,11 +43,11 @@ namespace enginx
 
             u32 GetWidth() const override;
             u32 GetHeight() const override;
-            void GetLocation(int& xpos, int& ypos) const override;
+            void GetLocation(int& x, int& y) const override;
         
         private:
-            u32 m_width;
-            u32 m_height;
+            const u32 m_width;
+            const u32 m_height;
             std::string m_defaultWindowName;
             bool m_shouldClose = false;
 
@@ -58,26 +55,19 @@ namespace enginx
             bool fullscreen = false;
         
         private:
-            Window m_window;
-            XEvent m_event_q;
-            KeySym keysym = 0;
-        
-        private:
-            void CreateWindow();   
-            void postWindowCreation();
+            HWND m_windowHandle;
+            // HICON m_Icon;
 
-            void handle_event();
-        
+            MSG m_message_queue; // * Event Queue
+    
         private:
-            Atom atomWMDeleteWindow;
-            Atom motifWMHints;
-            Atom wmState;
-            Atom wmStateFullScreen;        
+            void _register_window_class();
+            void _create_window();
+
     };
-
 
 }
 
-#endif // EX_PLATFORM_LINUX
+#endif // EX_PLATFORM_WINDOWS
 
-#endif // ! end of X11_WINDOW_HPP
+#endif // ! end of WIN32_WINDOW_HPP

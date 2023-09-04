@@ -22,8 +22,10 @@ namespace enginx
             virtual void Initialize() = 0;            
             virtual void Show() const = 0;
             virtual void Clear() const = 0;
-            virtual void SetTitle(const std::string& title) const = 0;
             virtual void Close() = 0;
+
+            virtual void SetTitle(const std::string& title) const = 0;
+            virtual void SetIcon(const char* iconFilePath) const = 0;
 
             virtual void PumpEvents() = 0;      // * Non blocking
             virtual void WaitForEvents() = 0;   // * Blocking
