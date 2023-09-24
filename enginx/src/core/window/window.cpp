@@ -3,9 +3,19 @@
 #include <enginx/defines.h>
 #include <enginx/platform_detection.h>
 
-// ! REMOVE THIS
-#define EX_USE_XORG
-// ! REMOVE THIS
+#ifdef EX_PLATFORM_LINUX
+    #if __has_include(<X11/Xlib.h>)
+        #define EX_USE_XORG
+    #elif __has_include(<wayland-client.h>)
+        #define EX_USE_WAYLAND
+    #else
+        #error "Failed to choose a windowing backend."
+    #endif
+    
+    #if defined(EX_USE_XORG) && defined(EX_USE_WAYLAND)
+        #define EX_USE_XORG 0
+    #endif
+#endif
 
 #ifdef EX_PLATFORM_LINUX
     #if defined(EX_USE_XORG)
