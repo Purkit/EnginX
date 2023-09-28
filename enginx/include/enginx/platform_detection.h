@@ -44,4 +44,36 @@
     #error "Unknown platform!"
 #endif
 
-#endif // PLATFORM_DETECTION_H
+
+// ** BACKEND DETECTION
+#ifdef EX_PLATFORM_LINUX
+    #if __has_include(<X11/Xlib.h>)
+        #define EX_USE_XORG
+    #elif __has_include(<wayland-client.h>)
+        #define EX_USE_WAYLAND
+    #else
+        #error "Failed to choose a windowing backend."
+    #endif
+    
+    #if defined(EX_USE_XORG) && defined(EX_USE_WAYLAND)
+        #define EX_USE_XORG 0
+    #endif
+#endif
+
+#ifdef EX_PLATFORM_LINUX
+    #if defined(EX_USE_XORG)
+        #include <enginx/platform/linux/X11/X11Window.hpp>
+    #elif defined(EX_USE_WAYLAND)
+        #include <enginx/platform/WaylandWindow.hpp>
+    #endif
+#endif
+
+#ifdef EX_PLATFORM_WINDOWS
+    #include <enginx/platform/windows/WIN32/win32Window.hpp>
+#endif
+
+#ifdef EX_PLATFORM_APPLE
+    #include <enginx/platform/CocoaWindow.hpp>
+#endif
+
+#endif // ! PLATFORM_DETECTION_H
