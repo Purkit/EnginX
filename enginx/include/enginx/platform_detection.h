@@ -62,7 +62,7 @@
 
 #ifdef EX_PLATFORM_LINUX
     #if defined(EX_USE_XORG)
-        #include <enginx/platform/linux/X11/X11Window.hpp>
+        #include <enginx/platform/linux/x11/X11Window.hpp>
     #elif defined(EX_USE_WAYLAND)
         #include <enginx/platform/WaylandWindow.hpp>
     #endif

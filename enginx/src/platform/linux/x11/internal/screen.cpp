@@ -1,5 +1,5 @@
-#include <enginx/platform/linux/X11/internal/screen.hpp>
-#include <enginx/platform/linux/X11/internal/connect.hpp>
+#include <enginx/platform/linux/x11/internal/screen.hpp>
+#include <enginx/platform/linux/x11/internal/connect.hpp>
 
 namespace X11_Internal
 {

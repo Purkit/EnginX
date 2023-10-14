@@ -1,4 +1,4 @@
-#include <enginx/platform/linux/X11/internal/connect.hpp>
+#include <enginx/platform/linux/x11/internal/connect.hpp>
 #include <enginx/utility/assert/asserts.hpp>
 #include <enginx/utility/logger/logger.hpp>
 
